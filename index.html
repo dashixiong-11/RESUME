@@ -94,7 +94,7 @@
         <div class="mask"></div>
     </div>
     <main style=" margin-top:-360px;">
-        <div id="siteAbout" class="userCard">
+        <div data-x id="siteAbout" class="userCard">
             <div class="PAT clearfix">
                 <div class="picture">
                     <img src="pic/timg-min.png" style="width: 299px; height:347px;" alt="头像">
@@ -161,7 +161,7 @@
             毕业于郑州轻工业学院，原环境艺术设计，现前端开发工程师。
         </p>
     </main>
-    <section id="siteSkills" class="skills">
+    <section data-x id="siteSkills" class="skills">
         <h2>技能</h2>
         <ol class="clearfix">
             <li>
@@ -202,7 +202,7 @@
             </li>
         </ol>
     </section>
-    <section id="siteWorks" class="portfolio">
+    <section data-x id="siteWorks" class="portfolio">
         <h2> 作品集 </h2>
         <nav>
             <ol class="clearfix">
@@ -245,22 +245,62 @@
         sitewelcome.classList.remove('active')
     }, 1000)
 
-    window.onscroll = function () {
+    //导航栏动画
+    setTimeout(function () {
+        donghua()
+    }, 1000)
+
+    window.onscroll = function (x) {
         if (window.scrollY > 0) {
             topNavBar.classList.add('sticky')
         } else {
             topNavBar.classList.remove('sticky')
         }
+        donghua()
     }
+    function donghua() {
+        let specialTags = document.querySelectorAll('[data-x]')
+        let minIndex = 0
+        for (let i = 1; i < specialTags.length; i++) {
+            let a = Math.abs(specialTags[i].offsetTop - window.scrollY)
+            let b = Math.abs(specialTags[minIndex].offsetTop - window.scrollY)
+            if (a < b) {
+                minIndex = i
+            }
+        }
+        for (let i = 0; i < specialTags.length; i++) {
+            let id = specialTags[i].id
+            let abiaoq = document.querySelector('a[href="#' + id + '"]')
+            let li = abiaoq.parentNode
+            li.classList.remove('hightlight')
+        }
+        specialTags[minIndex].classList.remove('offset')
+        let id = specialTags[minIndex].id
+        let abiaoq = document.querySelector('a[href="#' + id + '"]')
+        let li = abiaoq.parentNode
+        li.classList.add('hightlight')
+    }
+    let specialTags = document.querySelectorAll('[data-x]')
+    for (let i = 0; i < specialTags.length; i++) {
+        specialTags[i].classList.add('offset')
+    }
+    //子菜单动画
     let menuli = document.getElementsByClassName('Menulist')
     for (let i = 0; i < menuli.length; i++) {
         menuli[i].onmouseover = function (x) {
             let sub = x.currentTarget
             sub.classList.add('active')
+            if (sub.querySelector('.submenu') !== null) {
+                sub.querySelector('.submenu').classList.add('active')
+            }
+
         }
         menuli[i].onmouseout = function (x) {
             let sub = x.currentTarget
             sub.classList.remove('active')
+            if (sub.querySelector('.submenu') !== null) {
+                sub.querySelector('.submenu').classList.remove('active')
+            }
         }
     }
 
@@ -297,6 +337,7 @@
                 .start();
         }
     }
+
 
 </script>
 
