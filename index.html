@@ -7,16 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
     <title>简历</title>
-    <style type="text/css">
-        .icon {
-            width: 1em;
-            height: 1em;
-            vertical-align: -0.15em;
-            fill: currentColor;
-            overflow: hidden;
-        }
-
+    <style type="text/css">     
         .site-welcome {
             display: none;
             position: fixed;
@@ -33,6 +26,10 @@
         .site-welcome.active {
             display: flex;
         }
+        
+.swiper-container{
+    margin-top: 30px;
+}
     </style>
 </head>
 
@@ -204,43 +201,49 @@
     </section>
     <section data-x id="siteWorks" class="portfolio">
         <h2> 作品集 </h2>
-        <nav>
-            <ol class="clearfix">
-                <li id="all">所有</li>
-                <li id="framework">框架</li>
-                <li id="vallina">原生JS&amp;CSS</li>
-            </ol>
-            <div class="bar">
-                <div id="portflioBar" class="bar-inner1"></div>
-            </div>
-        </nav>
-        <div class="works" style="height: 597px;">
-            <div class="big" style="top: 0; left:0;">
-                <img src="./pic/3-min.jpg" alt="">
-            </div>
-            <div class="small" style="top: 0; left: 645px;">
-                <img src="./pic/1.jpg" alt="">
-            </div>
-            <div class="small" style="top: 312px; left: 645px;">
-                <img src="./pic/2.jpg" alt="">
-            </div>
+        
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <img src="pic/nav.png" alt="" class="swiper-slide">
+                <img src="pic/draw.png" alt="" class="swiper-slide">
+                <img src="pic/slides.png" alt="" class="swiper-slide">
+            </div>         
+            <!-- 如果需要导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>  
         </div>
     </section>
 </body>
 
 <script src="//at.alicdn.com/t/font_729874_mh4kjkmwowl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.2.0/Tween.min.js"></script>
+<script src="js/swiper.min.js"></script>
 <script src="js/main.js"></script>
 <script>
-    all.onclick = function () {
-        portflioBar.className = "bar-inner1"
-    }
-    framework.onclick = function () {
-        portflioBar.className = "bar-inner2"
-    }
-    vallina.onclick = function () {
-        portflioBar.className = "bar-inner3"
-    }
+//swiper
+var mySwiper = new Swiper ('.swiper-container', {
+    
+    loop: true, // 循环模式选项
+    
+    // 如果需要分页器
+    pagination: {
+      el: '.swiper-pagination',
+    },
+    
+    // 如果需要前进后退按钮
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    
+  })        
+
+
+
+
+
+
+   
     setTimeout(function () {
         sitewelcome.classList.remove('active')
     }, 1000)

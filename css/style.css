@@ -40,8 +40,7 @@ ul,ol{
     opacity: .7;
 }
 [data-x]{
-    transform: translateY(0);
-    
+    transform: translateY(0);    
     transition:  all .5s;
 }
 
@@ -75,8 +74,7 @@ ul,ol{
 .top-nav-bar .submenu li{
     white-space:nowrap;
     text-align:right;
-    margin-top:6px; 
-    
+    margin-top:6px;   
 }
 .top-nav-bar .Menulist .submenu.active{
     display:block;
@@ -226,6 +224,13 @@ ul,ol{
 .userCard > footer.media >a:hover{
     background: #cf5d5f;
 }
+.icon{
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
 .userCard svg{
     width: 30px;
     height: 30px;
@@ -314,80 +319,10 @@ section.portfolio{
     margin-bottom: 300px;
     
 } 
-section.portfolio ol li{
-    float: left;
-    margin-left: 40px;
-    cursor: pointer;
-
-}
-section.portfolio nav ol{
-    margin: 0 auto;
-    display: inline-block;
-    vertical-align: top;   
-}
-section.portfolio nav{
-    text-align: center;
-    display: inline-block;
-    vertical-align: top;
-}
-section.portfolio ol li:first-child{
-     margin-left: 0;      
-}
-/* nth-child(1) =first-child */
-
-section.portfolio nav .bar{
-    height: 5px;
-    background: white;
-    border-radius: 2px;
-    margin: 5px 0 50px;
-    
-
-}
-section.portfolio nav .bar-inner1{
-    height: 100%;
-    background: #e6686a;
-    width: 13%;
-    border-radius: 2px;
-    margin-left: 0;
-    transition:  all 0.3s;
-    
-}
-section.portfolio nav .bar-inner2{
-    height: 100%;
-    background: #e6686a;
-    width: 15%;
-    border-radius: 2px;
-    margin-left: 72px;
-    transition:  all 0.3s;
-}
-section.portfolio nav .bar-inner3{
-    height: 100%;
-    background: #e6686a;
-    width: 39%;
-    border-radius: 2px;
-    margin-left: 143px;
-    transition:  all 0.3s;
-}
-section.portfolio nav{
-    margin-top: 50px;
-}
-section.portfolio div.works .big img{
-    width: 606px;
-    height: 606px;
-}
-section.portfolio div.works .small img{
-    width: 293px;
-    height: 293px;
-}
-section.portfolio .works{
-    position: relative;
-    height: 597px;
-    
-}
-section.portfolio .works .big,
-section.portfolio .works .small{
-    position: absolute;
-}
+section.portfolio.swiper-container {
+    width:900px;
+    height: 500px;
+}  
 
 
 
