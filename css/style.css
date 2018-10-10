@@ -277,6 +277,7 @@ section.portfolio h2{
     font-size: 34px;
     line-height: 1.2;
     font-weight: 600;
+    margin-bottom: 30px;
 }
 section.skills h3{
     font-size: 14px;
@@ -319,10 +320,12 @@ section.portfolio{
     margin-bottom: 300px;
     
 } 
-section.portfolio.swiper-container {
+.swiper-container {
     width:900px;
     height: 500px;
+    box-shadow: 0px 8px 15px -5px rgba(0,0,0,0.65);
 }  
+
 
 
 
