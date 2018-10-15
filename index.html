@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="css/swiper.min.css">
     <title>简历</title>
     <style type="text/css">
-        
         .site-welcome {
             display: none;
             position: fixed;
@@ -27,7 +26,6 @@
         .site-welcome.active {
             display: flex;
         }
-        
     </style>
 </head>
 
@@ -199,146 +197,76 @@
     </section>
     <section data-x id="siteWorks" class="portfolio">
         <h2> 作品集 </h2>
-        
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <img src="pic/nav.png" alt="" class="swiper-slide">
-                <img src="pic/draw.png" alt="" class="swiper-slide">
-                <img src="pic/slides.png" alt="" class="swiper-slide">
-            </div>         
-            <!-- 如果需要导航按钮 -->
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>  
+        <div id="mySlides">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <img src="pic/nav.png" alt="" class="swiper-slide">
+                    <img src="pic/draw.png" alt="" class="swiper-slide">
+                    <img src="pic/slides.png" alt="" class="swiper-slide">
+                </div>
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
         </div>
+    </section>
+
+    <section id="message" class="message">
+        <h2>留言</h2>
+        <ol id="messageList">
+        </ol>
+        <form id="postMessage" style="width:700px; margin:50px auto;">
+            昵称:<input type="text" name="name" id="">
+            内容：<input type="text" name="content" id="">
+            <input type="submit" value="提交">
+        </form>
     </section>
 </body>
 
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
 <script src="//at.alicdn.com/t/font_729874_mh4kjkmwowl.js"></script>
+<script src="js/leancloud.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.2.0/Tween.min.js"></script>
 <script src="js/swiper.min.js"></script>
-<script src="js/main.js"></script>
+<script src="js/init_swiper.js"></script>
+<script src="js/auto-slide-up.js"></script>
+<script src="js/sticky-topbar.js"></script>
+<script src="js/smoothly-navigation.js"></script>
+
 <script>
-//swiper
-var mySwiper = new Swiper ('.swiper-container', {
-    
-    loop: true, // 循环模式选项
-    
-    // 如果需要分页器
-    pagination: {
-      el: '.swiper-pagination',
-    },
-    
-    // 如果需要前进后退按钮
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    
-  })        
+    !function () {
+        //加载页面动画
+        setTimeout(function () {
+            sitewelcome.classList.remove('active')
+        }, 1000)
 
 
 
 
 
 
-   
-    setTimeout(function () {
-        sitewelcome.classList.remove('active')
-    }, 1000)
+        //鼠标hover 出现子菜单
+        let menuli = document.getElementsByClassName('Menulist')
+        for (let i = 0; i < menuli.length; i++) {
+            menuli[i].onmouseover = function (x) {
+                let sub = x.currentTarget
+                sub.classList.add('active')
+                if (sub.querySelector('.submenu') !== null) {
+                    sub.querySelector('.submenu').classList.add('active')
+                }
 
-    //导航栏动画
-    setTimeout(function () {
-        donghua()
-    }, 1000)
-
-    window.onscroll = function (x) {
-        if (window.scrollY > 0) {
-            topNavBar.classList.add('sticky')
-        } else {
-            topNavBar.classList.remove('sticky')
-        }
-        donghua()
-    }
-    function donghua() {
-        let specialTags = document.querySelectorAll('[data-x]')
-        let minIndex = 0
-        for (let i = 1; i < specialTags.length; i++) {
-            let a = Math.abs(specialTags[i].offsetTop - window.scrollY)
-            let b = Math.abs(specialTags[minIndex].offsetTop - window.scrollY)
-            if (a < b) {
-                minIndex = i
+            }
+            menuli[i].onmouseout = function (x) {
+                let sub = x.currentTarget
+                sub.classList.remove('active')
+                if (sub.querySelector('.submenu') !== null) {
+                    sub.querySelector('.submenu').classList.remove('active')
+                }
             }
         }
-        for (let i = 0; i < specialTags.length; i++) {
-            let id = specialTags[i].id
-            let abiaoq = document.querySelector('a[href="#' + id + '"]')
-            let li = abiaoq.parentNode
-            li.classList.remove('hightlight')
-        }
-        specialTags[minIndex].classList.remove('offset')
-        let id = specialTags[minIndex].id
-        let abiaoq = document.querySelector('a[href="#' + id + '"]')
-        let li = abiaoq.parentNode
-        li.classList.add('hightlight')
-    }
-    let specialTags = document.querySelectorAll('[data-x]')
-    for (let i = 0; i < specialTags.length; i++) {
-        specialTags[i].classList.add('offset')
-    }
-    //子菜单动画
-    let menuli = document.getElementsByClassName('Menulist')
-    for (let i = 0; i < menuli.length; i++) {
-        menuli[i].onmouseover = function (x) {
-            let sub = x.currentTarget
-            sub.classList.add('active')
-            if (sub.querySelector('.submenu') !== null) {
-                sub.querySelector('.submenu').classList.add('active')
-            }
 
-        }
-        menuli[i].onmouseout = function (x) {
-            let sub = x.currentTarget
-            sub.classList.remove('active')
-            if (sub.querySelector('.submenu') !== null) {
-                sub.querySelector('.submenu').classList.remove('active')
-            }
-        }
-    }
 
-    function animate(time) {
-        requestAnimationFrame(animate);
-        TWEEN.update(time);
-    }                                   //tween.js 内置
-    requestAnimationFrame(animate);
-
-    let aTage = document.querySelectorAll('nav > ul > li > a')
-    for (let i = 0; i < aTage.length; i++) {
-        aTage[i].onclick = function (x) {
-            x.preventDefault()
-            let aaa = x.currentTarget //获取到所触发事件的节点
-            let href = aaa.getAttribute('href') //得到节点里的href
-            let element = document.querySelector(href)//通过href （就是div的id）获取到相对的div
-            let top = element.offsetTop //获取div到页面顶端的距离
-
-            let currentTop = window.scrollY // 当前页面滚动条距离顶部的像素
-            let targetTop = top - 80  //目标div 距离页面顶部的像素
-            let s = targetTop - currentTop
-
-            var coords = { y: currentTop }; //起始位置
-            let t = Math.abs((s / 100) * 300)
-            if (t > 500) {
-                t = 650
-            }
-            var tween = new TWEEN.Tween(coords) //放入起始位置参数
-                .to({ y: targetTop }, t) // 放入终止位置  时间 参数
-                .easing(TWEEN.Easing.Quadratic.InOut)  //选择运动轨迹函数自己机选好运动距离和时间间隔 我们知道规定总距离和时间
-                .onUpdate(function () {
-                    window.scrollTo(0, coords.y)
-                })
-                .start();
-        }
-    }
-
+    }.call()
 
 </script>
 
