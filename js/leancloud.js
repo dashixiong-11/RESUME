@@ -1,28 +1,23 @@
 !function () {
     var view = document.querySelector('#message')
+    var model = Model({resourceName:'Message'})
     var controller = {
         view: null,
         messageList: null,
         myForm: null,
-        init: function (view) {
+        model:null,
+        init: function (view,model) {
             this.view = view
+            this.model = model
             this.myForm = view.querySelector('#postMessage')
             this.messageList = view.querySelector('#messageList')
-            this.initAV()
+            this.model.initAV()
             this.loadMessages()
             this.bindEvents()
         },
-        initAV: function () {
-            var APP_ID = 'xgxcsg8iFfjUfLPLmNYmpDiv-gzGzoHsz';
-            var APP_KEY = '4UOsLbL4V837AQ1f2mR3FOAa';
-            AV.init({
-                appId: APP_ID,
-                appKey: APP_KEY,
-            });
-        },
+        
         loadMessages: function () {
-            var query = new AV.Query('Message');
-            query.find().then((message) => {
+            this.model.fetch().then((message) => {
                 let array = message.map(
                     (item) => item.attributes
                 )
@@ -31,33 +26,105 @@
                     li.innerText = `${item.name} :  ${item.content}`
                     this.messageList.append(li)
                 })
-            }, function (error) {
-                // 异常处理
             })
         },
-        bindEvents: function () {
-            let myForm = this.myForm
-            myForm.addEventListener('submit', function (e) {
-                e.preventDefault()
-                var content = myForm.querySelector('input[name=content]').value
-                var name = myForm.querySelector('input[name=name]').value
-                var TestObject = AV.Object.extend('Message')
-                // 创建一个 名字为TestObject 新表格
-                var testObject = new TestObject()
-                testObject.save({
-                    //储存数据组的名字 words     内容 hello world
-                    content: content,
-                    name: name
-                }).then(function (object) {
+        saveMessage:function(){
+            var content = this.myForm.querySelector('input[name=content]').value
+                var name = this.myForm.querySelector('input[name=name]').value
+                
+                this.model.save({'name':name,'content':content})
+               .then( (object) =>{
                     let li = document.createElement('li')
-                    li.innerText = `${content} : ${name}`
+                    li.innerText = `${name} : ${content}`
                     messageList.append(li)
                     myForm.querySelector('input[name=content]').value = ''
                 })
+        },
+        bindEvents: function () {
+            let myForm = this.myForm
+            myForm.addEventListener('submit', (e) =>{
+                e.preventDefault()
+                this.saveMessage()
             })
         }
     }
 
-controller.init(view)
+controller.init(view,model)
 
 }.call()
+
+
+
+/*--------------------------------------------------*/
+
+
+
+window.Controller = function(options){
+    var init = function(view, model){
+        this.messageList = view.querySelector('#messageList')
+        this.form = view.querySelector('form')
+        this.loadMessages()
+        // object 上有这三个属性吗
+      }
+  
+    let object = {
+      view: null,
+      model: null,
+      messageList: null,
+      form: null,
+      init: function(view, model){ // A
+        this.view = view
+        this.model = model
+        this.model.init()
+        init.call(this, view, model) // 这是哪个 init
+        this.bindEvents.call(this)
+      },
+      loadMessages: function(){
+        this.model.fetch().then(
+          (messages) => {
+            let array = messages.map((item)=> item.attributes )
+            array.forEach((item)=>{
+              let li = document.createElement('li')
+              li.innerText = `${item.name}: ${item.content}`
+              this.messageList.appendChild(li)
+            })
+          } 
+        )
+      },
+      bindEvents: function(){
+        console.log(this.form)
+        this.form.addEventListener('submit', (e)=>{
+          e.preventDefault()
+          this.saveMessage()
+        })
+      },
+      saveMessage: function(){
+        let myForm = this.form
+        let content = myForm.querySelector('input[name=content]').value
+        let name = myForm.querySelector('input[name=name]').value
+        this.model.save({
+          'name': name, 'content': content
+        }).then(function(object) {
+          let li = document.createElement('li')
+          li.innerText = `${object.attributes.name}: ${object.attributes.content}`
+          let messageList = document.querySelector('#messageList')
+          messageList.appendChild(li)
+          myForm.querySelector('input[name=content]').value = ''
+          console.log(object)
+        })
+      }
+    }
+    return object
+  }
+
+
+
+
+
+
+
+
+
+
+
+
